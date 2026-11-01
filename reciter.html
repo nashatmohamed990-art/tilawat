@@ -2,9 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>القارئ | تلاوات</title>
   <meta name="theme-color" content="#0b1210" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -17,6 +18,7 @@
       <a class="back" href="index.html">كل القراء</a>
     </div>
   </header>
+
   <main class="wrap">
     <section class="reciter-hero">
       <p class="kicker" id="rewaya">—</p>
@@ -24,25 +26,37 @@
       <p class="muted" id="reciter-meta"></p>
       <button class="btn" type="button" id="play-all">تشغيل المصحف من الفاتحة</button>
     </section>
+
     <section>
       <div class="section-head"><h2>السور</h2></div>
       <div id="surah-list" class="surah-list"></div>
     </section>
   </main>
+
   <footer class="wrap foot">
     <span>تلاوات · استماع للقرآن الكريم</span>
   </footer>
+
   <div class="dock" id="dock" hidden>
-    <strong id="dock-title"></strong>
+    <div class="dock-top">
+      <strong id="dock-title"></strong>
+      <button type="button" id="dock-close" class="dock-x" aria-label="إغلاق">×</button>
+    </div>
     <input id="dock-seek" type="range" min="0" max="1000" value="0" aria-label="التقدم" />
+    <div class="dock-times">
+      <span id="dock-cur">٠:٠٠</span>
+      <span id="dock-dur">٠:٠٠</span>
+    </div>
     <div class="dock-controls">
-      <button type="button" id="dock-list" aria-label="القائمة">☰</button>
+      <button type="button" id="dock-list" aria-label="القائمة" title="قائمة القارئ">☰</button>
       <button type="button" id="dock-prev" aria-label="السابق">⟨⟨</button>
-      <button type="button" id="dock-play" aria-label="تشغيل">▶</button>
+      <button type="button" id="dock-play" class="dock-play" aria-label="تشغيل">▶</button>
       <button type="button" id="dock-next" aria-label="التالي">⟩⟩</button>
-      <button type="button" id="dock-close" aria-label="إغلاق">×</button>
+      <button type="button" id="dock-repeat" aria-label="تكرار" title="تكرار السورة">↺</button>
+      <button type="button" id="dock-speed" aria-label="السرعة" title="سرعة التشغيل">١×</button>
     </div>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>
