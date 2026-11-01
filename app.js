@@ -1,5 +1,6 @@
 const ar = new Intl.NumberFormat("ar-EG");
 const SURAH_NAMES = ["","الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
+const FAMOUS = ["السديس","المعيقلي","العفاسي","المنشاوي","عبد الباسط","الدوسري","الغامدي","الشريم","الحصري","الطبلاوي","مشاري"];
 
 let RECITERS = [];
 let queue = [];
@@ -15,8 +16,10 @@ function fmtTime(s) {
   if (!isFinite(s) || s < 0) return "٠:٠٠";
   const m = Math.floor(s / 60);
   const sec = Math.floor(s % 60);
-  return ar.format(m) + ":" + String(sec).padStart(2, "0").replace(/\d/g, (d) => ar.format(+d));
+  const ss = String(sec).padStart(2, "0");
+  return ar.format(m) + ":" + ss.replace(/\d/g, (d) => ar.format(+d));
 }
+function initial(name) { return (name || "ق").trim().charAt(0); }
 
 function ensureAudio() {
   if (!audio) {
@@ -38,9 +41,14 @@ function ensureAudio() {
     audio.addEventListener("play", () => {
       const btn = document.getElementById("dock-play");
       if (btn) btn.textContent = "Ⅱ";
+      document.body.classList.add("has-dock");
       try {
         if ("mediaSession" in navigator && queue[index]) {
-          navigator.mediaSession.metadata = new MediaMetadata({ title: queue[index].title, artist: "تلاوات", album: "القرآن الكريم" });
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: queue[index].title,
+            artist: queue[index].reciterName || "تلاوات",
+            album: "القرآن الكريم"
+          });
         }
       } catch (_) {}
     });
@@ -53,19 +61,22 @@ function ensureAudio() {
       else playAt(index + 1);
     });
     audio.addEventListener("error", () => {
-      const title = document.getElementById("dock-title");
-      if (title) title.textContent = "تعذر تشغيل الملف · جرب سورة أخرى";
+      const t = document.getElementById("dock-title");
+      if (t) t.textContent = "تعذر التشغيل · جرب سورة أخرى";
     });
   }
   return audio;
 }
 
-function showDock(title) {
+function showDock(title, sub) {
   const dock = document.getElementById("dock");
   if (!dock) return;
   dock.hidden = false;
+  document.body.classList.add("has-dock");
   const t = document.getElementById("dock-title");
+  const s = document.getElementById("dock-sub");
   if (t) t.textContent = title;
+  if (s) s.textContent = sub || "";
 }
 
 function playAt(i) {
@@ -76,13 +87,15 @@ function playAt(i) {
   const item = queue[index];
   const a = ensureAudio();
   a.src = item.url;
-  showDock(item.title);
+  showDock(item.title, item.reciterName || "");
   a.play().catch(() => {});
   document.querySelectorAll(".surah").forEach((el) => {
     el.classList.toggle("on", Number(el.dataset.n) === item.n);
   });
   try {
-    localStorage.setItem("tilawat-last", JSON.stringify({ reciterId: item.reciterId, n: item.n, title: item.title, url: item.url }));
+    localStorage.setItem("tilawat-last", JSON.stringify({
+      reciterId: item.reciterId, n: item.n, title: item.title, url: item.url
+    }));
   } catch (_) {}
 }
 
@@ -90,7 +103,8 @@ function playReciter(reciter, startSurah) {
   const list = reciter.surahs.slice();
   const start = startSurah ? list.indexOf(startSurah) : 0;
   queue = list.map((n) => ({
-    n, url: surahUrl(reciter, n), title: reciter.name + " · " + surahTitle(n), reciterId: reciter.id
+    n, url: surahUrl(reciter, n), title: surahTitle(n),
+    reciterName: reciter.name, reciterId: reciter.id
   }));
   playAt(start >= 0 ? start : 0);
 }
@@ -100,11 +114,15 @@ function bindDock() {
   if (!play || play.dataset.bound) return;
   play.dataset.bound = "1";
   const a = ensureAudio();
-  play.addEventListener("click", () => { if (a.paused) a.play().catch(() => {}); else a.pause(); });
+  play.addEventListener("click", () => {
+    if (a.paused) a.play().catch(() => {}); else a.pause();
+  });
   document.getElementById("dock-prev")?.addEventListener("click", () => playAt(index - 1));
   document.getElementById("dock-next")?.addEventListener("click", () => playAt(index + 1));
   document.getElementById("dock-close")?.addEventListener("click", () => {
-    a.pause(); a.removeAttribute("src"); document.getElementById("dock").hidden = true;
+    a.pause(); a.removeAttribute("src");
+    document.getElementById("dock").hidden = true;
+    document.body.classList.remove("has-dock");
   });
   document.getElementById("dock-list")?.addEventListener("click", () => {
     if (location.pathname.endsWith("reciter.html")) return;
@@ -149,6 +167,28 @@ function normalize(data) {
   return out;
 }
 
+function isFamous(name) { return FAMOUS.some((f) => name.includes(f)); }
+
+function renderFamous() {
+  const row = document.getElementById("famous-row");
+  if (!row) return;
+  let list = RECITERS.filter((r) => isFamous(r.name) && r.count >= 100);
+  if (list.length < 6) list = RECITERS.filter((r) => r.count >= 114).slice(0, 12);
+  else list = list.slice(0, 12);
+  row.innerHTML = list.map((r) => `
+    <a class="reciter-card" href="reciter.html?id=${r.id}">
+      <div class="reciter-avatar">${initial(r.name)}</div>
+      <strong>${r.name}</strong>
+      <span>${ar.format(r.count)} سورة</span>
+      <span class="play-mini" data-id="${r.id}" onclick="event.preventDefault();event.stopPropagation();quickPlay(${r.id})">▶</span>
+    </a>`).join("");
+}
+
+window.quickPlay = function (id) {
+  const r = byId(id);
+  if (r) playReciter(r);
+};
+
 function renderHome() {
   const grid = document.getElementById("grid");
   if (!grid) return;
@@ -157,10 +197,10 @@ function renderHome() {
   let list = RECITERS;
   if (letter) list = list.filter((r) => r.letter === letter);
   if (q) list = list.filter((r) => r.name.includes(q));
-  const stat = document.getElementById("stat-count");
-  if (stat) stat.textContent = ar.format(RECITERS.length);
   const rc = document.getElementById("result-count");
   if (rc) rc.textContent = ar.format(list.length) + " قارئ";
+  const loading = document.getElementById("loading");
+  if (loading) loading.hidden = true;
   grid.innerHTML = list.map((r) => `
     <a class="card" href="reciter.html?id=${r.id}">
       <span class="letter">${r.letter}</span>
@@ -195,7 +235,7 @@ function renderReciter() {
     return;
   }
   sessionStorage.setItem("tilawat-last-reciter", String(reciter.id));
-  document.title = reciter.name + " | تلاوات";
+  document.title = reciter.name + " | تلاوات القرآن الكريم";
   document.getElementById("reciter-name").textContent = reciter.name;
   document.getElementById("rewaya").textContent = reciter.rewaya;
   document.getElementById("reciter-meta").textContent = ar.format(reciter.count) + " سورة متاحة";
@@ -222,13 +262,20 @@ async function boot() {
     RECITERS = normalize(data);
   } catch (err) {
     console.error(err);
-    const empty = document.getElementById("empty");
-    if (empty) { empty.hidden = false; empty.textContent = "تعذر تحميل قائمة القراء. حدّث الصفحة."; }
+    const loading = document.getElementById("loading");
+    if (loading) loading.textContent = "تعذر تحميل قائمة القراء. حدّث الصفحة.";
+    return;
   }
   if (document.getElementById("grid")) {
+    renderFamous();
     renderLetters();
     renderHome();
     document.getElementById("q")?.addEventListener("input", renderHome);
+    document.getElementById("search-form")?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      renderHome();
+      document.getElementById("all")?.scrollIntoView({ behavior: "smooth" });
+    });
   }
   if (document.getElementById("surah-list")) renderReciter();
 }
