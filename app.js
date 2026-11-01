@@ -1,6 +1,23 @@
 const ar = new Intl.NumberFormat("ar-EG");
-const SURAH_NAMES = ["","الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
-const FAMOUS = ["السديس","المعيقلي","العفاسي","المنشاوي","عبد الباسط","الدوسري","الغامدي","الشريم","الحصري","الطبلاوي","مشاري"];
+const SURAH_NAMES = [
+  "","الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة",
+  "يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه",
+  "الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم",
+  "لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت",
+  "الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات",
+  "الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف",
+  "الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح",
+  "الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير",
+  "الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس",
+  "الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة",
+  "التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد",
+  "الإخلاص","الفلق","الناس"
+];
+
+const FAMOUS = [
+  "السديس","المعيقلي","العفاسي","المنشاوي","عبد الباسط","الدوسري",
+  "الغامدي","الشريم","الحصري","الطبلاوي","مشاري","ياسر","خليل"
+];
 
 let RECITERS = [];
 let queue = [];
@@ -19,18 +36,32 @@ function fmtTime(s) {
   const ss = String(sec).padStart(2, "0");
   return ar.format(m) + ":" + ss.replace(/\d/g, (d) => ar.format(+d));
 }
-function initial(name) { return (name || "ق").trim().charAt(0); }
+function initial(name) {
+  return (name || "ق").trim().charAt(0);
+}
+
+function getFavs() {
+  try {
+    return JSON.parse(localStorage.getItem("tilawat-favs") || "[]");
+  } catch (_) { return []; }
+}
+function saveFavs(list) {
+  try { localStorage.setItem("tilawat-favs", JSON.stringify(list)); } catch (_) {}
+}
 
 function ensureAudio() {
   if (!audio) {
     audio = document.createElement("audio");
     audio.preload = "metadata";
     document.body.appendChild(audio);
+
     audio.addEventListener("timeupdate", () => {
       const seek = document.getElementById("dock-seek");
       const cur = document.getElementById("dock-cur");
       const dur = document.getElementById("dock-dur");
-      if (seek && audio.duration) seek.value = Math.floor((audio.currentTime / audio.duration) * 1000);
+      if (seek && audio.duration) {
+        seek.value = Math.floor((audio.currentTime / audio.duration) * 1000);
+      }
       if (cur) cur.textContent = fmtTime(audio.currentTime);
       if (dur) dur.textContent = fmtTime(audio.duration || 0);
     });
@@ -57,8 +88,12 @@ function ensureAudio() {
       if (btn) btn.textContent = "▶";
     });
     audio.addEventListener("ended", () => {
-      if (repeatMode) { audio.currentTime = 0; audio.play().catch(() => {}); }
-      else playAt(index + 1);
+      if (repeatMode) {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+      } else {
+        playAt(index + 1);
+      }
     });
     audio.addEventListener("error", () => {
       const t = document.getElementById("dock-title");
@@ -89,7 +124,7 @@ function playAt(i) {
   a.src = item.url;
   showDock(item.title, item.reciterName || "");
   a.play().catch(() => {});
-  document.querySelectorAll(".surah").forEach((el) => {
+  document.querySelectorAll(".surah-card, .surah").forEach((el) => {
     el.classList.toggle("on", Number(el.dataset.n) === item.n);
   });
   try {
@@ -103,8 +138,11 @@ function playReciter(reciter, startSurah) {
   const list = reciter.surahs.slice();
   const start = startSurah ? list.indexOf(startSurah) : 0;
   queue = list.map((n) => ({
-    n, url: surahUrl(reciter, n), title: surahTitle(n),
-    reciterName: reciter.name, reciterId: reciter.id
+    n,
+    url: surahUrl(reciter, n),
+    title: surahTitle(n),
+    reciterName: reciter.name,
+    reciterId: reciter.id
   }));
   playAt(start >= 0 ? start : 0);
 }
@@ -114,13 +152,16 @@ function bindDock() {
   if (!play || play.dataset.bound) return;
   play.dataset.bound = "1";
   const a = ensureAudio();
+
   play.addEventListener("click", () => {
-    if (a.paused) a.play().catch(() => {}); else a.pause();
+    if (a.paused) a.play().catch(() => {});
+    else a.pause();
   });
   document.getElementById("dock-prev")?.addEventListener("click", () => playAt(index - 1));
   document.getElementById("dock-next")?.addEventListener("click", () => playAt(index + 1));
   document.getElementById("dock-close")?.addEventListener("click", () => {
-    a.pause(); a.removeAttribute("src");
+    a.pause();
+    a.removeAttribute("src");
     document.getElementById("dock").hidden = true;
     document.body.classList.remove("has-dock");
   });
@@ -153,11 +194,17 @@ function normalize(data) {
     for (const m of r.moshaf || []) {
       if ((m.surah_total || 0) < 30) continue;
       if (!best || m.surah_total > best.surah_total) best = m;
-      if (m.surah_total === 114 && String(m.name || "").includes("مرتل")) { best = m; break; }
+      if (m.surah_total === 114 && String(m.name || "").includes("مرتل")) {
+        best = m;
+        break;
+      }
     }
     if (!best) continue;
     out.push({
-      id: r.id, name: r.name, letter: r.letter || r.name[0], rewaya: best.name || "",
+      id: r.id,
+      name: r.name,
+      letter: r.letter || r.name[0],
+      rewaya: best.name || "",
       server: (best.server || "").replace(/\/?$/, "/"),
       surahs: String(best.surah_list || "").split(",").map(Number).filter(Boolean),
       count: Number(best.surah_total) || 0
@@ -167,21 +214,27 @@ function normalize(data) {
   return out;
 }
 
-function isFamous(name) { return FAMOUS.some((f) => name.includes(f)); }
+function isFamous(name) {
+  return FAMOUS.some((f) => name.includes(f));
+}
 
 function renderFamous() {
   const row = document.getElementById("famous-row");
   if (!row) return;
   let list = RECITERS.filter((r) => isFamous(r.name) && r.count >= 100);
-  if (list.length < 6) list = RECITERS.filter((r) => r.count >= 114).slice(0, 12);
-  else list = list.slice(0, 12);
+  if (list.length < 6) {
+    list = RECITERS.filter((r) => r.count >= 114).slice(0, 12);
+  } else {
+    list = list.slice(0, 12);
+  }
   row.innerHTML = list.map((r) => `
     <a class="reciter-card" href="reciter.html?id=${r.id}">
       <div class="reciter-avatar">${initial(r.name)}</div>
       <strong>${r.name}</strong>
       <span>${ar.format(r.count)} سورة</span>
       <span class="play-mini" data-id="${r.id}" onclick="event.preventDefault();event.stopPropagation();quickPlay(${r.id})">▶</span>
-    </a>`).join("");
+    </a>
+  `).join("");
 }
 
 window.quickPlay = function (id) {
@@ -206,7 +259,8 @@ function renderHome() {
       <span class="letter">${r.letter}</span>
       <strong>${r.name}</strong>
       <span>${ar.format(r.count)} سورة</span>
-    </a>`).join("");
+    </a>
+  `).join("");
   const empty = document.getElementById("empty");
   if (empty) empty.hidden = list.length !== 0;
 }
@@ -214,8 +268,11 @@ function renderHome() {
 function renderLetters() {
   const box = document.getElementById("letters");
   if (!box) return;
-  const letters = [...new Set(RECITERS.map((r) => r.letter))].sort((a, b) => a.localeCompare(b, "ar"));
-  box.innerHTML = `<button type="button" class="on" data-letter="">الكل</button>` +
+  const letters = [...new Set(RECITERS.map((r) => r.letter))].sort((a, b) =>
+    a.localeCompare(b, "ar")
+  );
+  box.innerHTML =
+    `<button type="button" class="on" data-letter="">الكل</button>` +
     letters.map((l) => `<button type="button" data-letter="${l}">${l}</button>`).join("");
   box.addEventListener("click", (e) => {
     const btn = e.target.closest("button");
@@ -223,6 +280,29 @@ function renderLetters() {
     box.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b === btn));
     renderHome();
   });
+}
+
+function renderFavs() {
+  const box = document.getElementById("fav-list");
+  if (!box) return;
+  const favs = getFavs();
+  if (!favs.length) {
+    box.innerHTML = `<p class="empty" style="padding:20px">أضف تلاوات للمفضلة من صفحة القارئ.</p>`;
+    return;
+  }
+  box.innerHTML = favs.map((f) => `
+    <button class="surah" type="button" data-n="${f.n}" data-rid="${f.reciterId}">
+      <b>${ar.format(f.n)}</b>
+      <span><strong>${f.title}</strong><em>${f.reciterName || ""}</em></span>
+      <span class="play">▶</span>
+    </button>
+  `).join("");
+  box.onclick = (e) => {
+    const row = e.target.closest(".surah");
+    if (!row) return;
+    const r = byId(row.dataset.rid);
+    if (r) playReciter(r, Number(row.dataset.n));
+  };
 }
 
 function renderReciter() {
@@ -238,18 +318,23 @@ function renderReciter() {
   document.title = reciter.name + " | تلاوات القرآن الكريم";
   document.getElementById("reciter-name").textContent = reciter.name;
   document.getElementById("rewaya").textContent = reciter.rewaya;
-  document.getElementById("reciter-meta").textContent = ar.format(reciter.count) + " سورة متاحة";
+  document.getElementById("reciter-meta").textContent =
+    ar.format(reciter.count) + " سورة متاحة";
   const list = document.getElementById("surah-list");
   list.innerHTML = reciter.surahs.map((n) => `
-    <button class="surah" type="button" data-n="${n}">
-      <b>${ar.format(n)}</b>
-      <span><strong>${surahTitle(n)}</strong><em>اضغط للتشغيل</em></span>
-      <span class="play">▶</span>
-    </button>`).join("");
+    <div class="surah-card" data-n="${n}" role="button" tabindex="0">
+      <div class="thumb"><span class="num">${ar.format(n)}</span></div>
+      <div class="body">
+        <strong>${SURAH_NAMES[n] || n}</strong>
+        <em>سورة ${ar.format(n)}</em>
+        <button class="play-btn" type="button" aria-label="تشغيل">▶</button>
+      </div>
+    </div>
+  `).join("");
   list.onclick = (e) => {
-    const row = e.target.closest(".surah");
-    if (!row) return;
-    playReciter(reciter, Number(row.dataset.n));
+    const card = e.target.closest(".surah-card");
+    if (!card) return;
+    playReciter(reciter, Number(card.dataset.n));
   };
   document.getElementById("play-all").onclick = () => playReciter(reciter);
 }
@@ -270,6 +355,7 @@ async function boot() {
     renderFamous();
     renderLetters();
     renderHome();
+    renderFavs();
     document.getElementById("q")?.addEventListener("input", renderHome);
     document.getElementById("search-form")?.addEventListener("submit", (e) => {
       e.preventDefault();
