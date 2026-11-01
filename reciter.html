@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>القارئ | تلاوات القرآن الكريم</title>
   <meta name="theme-color" content="#0a3d32" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -20,6 +21,7 @@
       <nav class="nav-desk">
         <a href="index.html">الرئيسية</a>
         <a href="index.html#sheikhs" class="on">المشايخ</a>
+        <a href="index.html#sections">الأقسام</a>
         <a href="index.html#about">حول الموقع</a>
       </nav>
       <a class="btn-login" href="index.html" style="text-decoration:none">كل القراء</a>
@@ -33,9 +35,12 @@
     <button class="btn-primary" type="button" id="play-all">تشغيل المصحف من الفاتحة</button>
   </section>
 
-  <main class="wrap" style="padding-top:20px">
-    <div class="section-head"><h2>فهرس السور</h2></div>
-    <div id="surah-list" class="surah-list"></div>
+  <main class="wrap" style="padding-top:24px">
+    <div class="section-head">
+      <h2>فهرس سور القرآن الكريم</h2>
+      <span style="font-size:.85rem;color:var(--text-muted)">جميع السور مرتبة</span>
+    </div>
+    <div id="surah-list" class="surah-grid"></div>
   </main>
 
   <footer class="foot">
@@ -45,6 +50,8 @@
   <nav class="bottom-nav">
     <a href="index.html"><span class="ico">🏠</span>الرئيسية</a>
     <a href="index.html#sheikhs" class="on"><span class="ico">🎙️</span>المشايخ</a>
+    <a href="index.html#sections"><span class="ico">📂</span>الأقسام</a>
+    <a href="index.html#fav"><span class="ico">❤️</span>المفضلة</a>
     <a href="index.html#about"><span class="ico">ℹ️</span>حول</a>
   </nav>
 
@@ -56,17 +63,20 @@
           <strong id="dock-title">—</strong>
           <span id="dock-sub">—</span>
         </div>
-        <button type="button" id="dock-close" class="dock-x">×</button>
+        <button type="button" id="dock-close" class="dock-x" aria-label="إغلاق">×</button>
       </div>
-      <input id="dock-seek" type="range" min="0" max="1000" value="0" />
-      <div class="dock-times"><span id="dock-cur">٠:٠٠</span><span id="dock-dur">٠:٠٠</span></div>
+      <input id="dock-seek" type="range" min="0" max="1000" value="0" aria-label="التقدم" />
+      <div class="dock-times">
+        <span id="dock-cur">٠:٠٠</span>
+        <span id="dock-dur">٠:٠٠</span>
+      </div>
       <div class="dock-controls">
-        <button type="button" id="dock-list">☰</button>
-        <button type="button" id="dock-prev">⟨⟨</button>
-        <button type="button" id="dock-play" class="dock-play">▶</button>
-        <button type="button" id="dock-next">⟩⟩</button>
-        <button type="button" id="dock-repeat">↺</button>
-        <button type="button" id="dock-speed">١×</button>
+        <button type="button" id="dock-list" title="القائمة">☰</button>
+        <button type="button" id="dock-prev" aria-label="السابق">⟨⟨</button>
+        <button type="button" id="dock-play" class="dock-play" aria-label="تشغيل">▶</button>
+        <button type="button" id="dock-next" aria-label="التالي">⟩⟩</button>
+        <button type="button" id="dock-repeat" title="تكرار">↺</button>
+        <button type="button" id="dock-speed" title="السرعة">١×</button>
       </div>
     </div>
   </div>
