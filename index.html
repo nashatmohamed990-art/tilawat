@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>تلاوات القرآن الكريم | بأصوات جميع المشايخ</title>
-  <meta name="description" content="استمع إلى جميع تلاوات المشايخ بأعلى جودة صوت في مكان واحد. السديس، المعيقلي، العفاسي، المنشاوي، عبد الباسط وأكثر." />
+  <title>تلاوات القرآن الكريم</title>
+  <meta name="description" content="استمع لتلاوات القرآن الكريم بأصوات أشهر القراء. السديس، المعيقلي، العفاسي، المنشاوي، عبد الباسط وغيرهم." />
   <meta name="theme-color" content="#0a3d32" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,15 +16,15 @@
   <header class="top">
     <div class="top-inner">
       <a class="brand" href="index.html">
-        <span class="brand-icon">📖</span>
+        <span class="brand-mark">ت</span>
         <span>تلاوات القرآن الكريم</span>
       </a>
       <nav class="nav-desk">
         <a href="index.html" class="on">الرئيسية</a>
         <a href="#sheikhs">المشايخ</a>
-        <a href="#sections">الأقسام</a>
+        <a href="#all">القراء</a>
         <a href="#fav">المفضلة</a>
-        <a href="#about">حول الموقع</a>
+        <a href="#about">حول</a>
       </nav>
     </div>
   </header>
@@ -32,9 +32,9 @@
   <section class="hero">
     <div class="hero-inner">
       <h1>تلاوات القرآن الكريم</h1>
-      <p>استمع إلى جميع تلاوات المشايخ بأعلى جودة صوت في مكان واحد</p>
+      <p>بأصوات أشهر القراء من مختلف البلاد</p>
       <form class="search-bar" id="search-form" action="#" onsubmit="return false;">
-        <input id="q" type="search" placeholder="ابحث عن سورة أو اسم الشيخ..." autocomplete="off" enterkeyhint="search" />
+        <input id="q" type="search" placeholder="ابحث عن قارئ أو سورة..." autocomplete="off" enterkeyhint="search" />
         <button type="submit">بحث</button>
       </form>
     </div>
@@ -42,12 +42,12 @@
 
   <div class="cats-wrap" id="sections">
     <div class="cats">
-      <a class="cat" href="#sheikhs"><span class="cat-icon">🎙️</span><strong>المشايخ</strong></a>
-      <a class="cat" href="#sheikhs"><span class="cat-icon">📗</span><strong>القرآن كاملاً</strong></a>
-      <a class="cat" href="#sheikhs"><span class="cat-icon">✨</span><strong>تلاوات خاشعة</strong></a>
-      <a class="cat" href="#sheikhs"><span class="cat-icon">⭐</span><strong>سور مختارة</strong></a>
-      <a class="cat" href="#sheikhs"><span class="cat-icon">🤲</span><strong>أدعية وأذكار</strong></a>
-      <a class="cat" href="#about"><span class="cat-icon">ℹ️</span><strong>حول الموقع</strong></a>
+      <a class="cat" href="#sheikhs"><span class="cat-ico">ق</span><strong>المشايخ</strong></a>
+      <a class="cat" href="#all"><span class="cat-ico">ك</span><strong>القرآن كاملاً</strong></a>
+      <a class="cat" href="#sheikhs"><span class="cat-ico">خ</span><strong>تلاوات خاشعة</strong></a>
+      <a class="cat" href="#all"><span class="cat-ico">س</span><strong>سور مختارة</strong></a>
+      <a class="cat" href="#fav"><span class="cat-ico">م</span><strong>المفضلة</strong></a>
+      <a class="cat" href="#about"><span class="cat-ico">ح</span><strong>حول الموقع</strong></a>
     </div>
   </div>
 
@@ -55,7 +55,7 @@
     <section class="section" id="sheikhs">
       <div class="section-head">
         <h2>أشهر المشايخ</h2>
-        <a class="more" href="#all">عرض الكل ←</a>
+        <a class="more" href="#all">عرض الكل</a>
       </div>
       <div class="reciters-row" id="famous-row"></div>
     </section>
@@ -63,7 +63,7 @@
     <section class="section" id="all">
       <div class="section-head">
         <h2>جميع القراء</h2>
-        <p class="muted" id="result-count" style="color:var(--text-muted);font-size:.9rem"></p>
+        <p class="muted" id="result-count" style="font-size:.85rem"></p>
       </div>
       <div id="letters" class="letters"></div>
       <div id="grid" class="grid"></div>
@@ -76,19 +76,19 @@
         <h2>المفضلة</h2>
       </div>
       <div id="fav-list" class="surah-list">
-        <p class="empty" style="padding:20px">أضف تلاوات للمفضلة من صفحة القارئ.</p>
+        <p class="empty" style="padding:16px">أضف تلاوات للمفضلة من صفحة القارئ.</p>
       </div>
     </section>
 
     <section class="section" id="about">
       <div class="about-box">
-        <h3>من نحن</h3>
-        <p>منصة متخصصة في جمع وتقديم تلاوات القرآن الكريم بأصوات جميع المشايخ من مختلف أنحاء العالم الإسلامي. نهدف لنشر كتاب الله وتيسير الوصول لتلاوات خاشعة بجودة عالية وتجربة استماع مميزة.</p>
+        <h3>حول الموقع</h3>
+        <p>موقع لجمع تلاوات القرآن الكريم بأصوات القراء المعروفين. الصوت من مصادر عامة متاحة، والهدف تسهيل الاستماع بجودة واضحة وواجهة بسيطة.</p>
         <div class="features">
-          <div class="feat"><strong>محتوى موثوق</strong><span>من مصادر عامة موثوقة</span></div>
-          <div class="feat"><strong>واجهة سهلة</strong><span>تصميم عربي أنيق</span></div>
-          <div class="feat"><strong>جودة عالية</strong><span>صوت نقي من mp3quran</span></div>
-          <div class="feat"><strong>متوافق مع الجميع</strong><span>يعمل على كل الأجهزة</span></div>
+          <div class="feat"><strong>أكثر من ٢٠٠ قارئ</strong><span>من mp3quran</span></div>
+          <div class="feat"><strong>تشغيل متسلسل</strong><span>من الفاتحة للناس</span></div>
+          <div class="feat"><strong>واجهة عربية</strong><span>سهلة على الموبايل</span></div>
+          <div class="feat"><strong>بدون تسجيل</strong><span>استمع مباشرة</span></div>
         </div>
       </div>
     </section>
@@ -96,21 +96,21 @@
 
   <footer class="foot">
     <p><strong>تلاوات القرآن الكريم</strong></p>
-    <p>منصة للاستماع لتلاوات القرآن بأصوات أشهر القراء · الصوت من مصادر عامة</p>
+    <p>استماع لتلاوات القراء · الصوت من مصادر عامة</p>
   </footer>
 
   <nav class="bottom-nav">
-    <a href="index.html" class="on"><span class="ico">🏠</span>الرئيسية</a>
-    <a href="#sheikhs"><span class="ico">🎙️</span>المشايخ</a>
-    <a href="#sections"><span class="ico">📂</span>الأقسام</a>
-    <a href="#fav"><span class="ico">❤️</span>المفضلة</a>
-    <a href="#about"><span class="ico">ℹ️</span>حول</a>
+    <a href="index.html" class="on"><span class="ico">ر</span>الرئيسية</a>
+    <a href="#sheikhs"><span class="ico">ق</span>المشايخ</a>
+    <a href="#all"><span class="ico">ك</span>القراء</a>
+    <a href="#fav"><span class="ico">م</span>المفضلة</a>
+    <a href="#about"><span class="ico">ح</span>حول</a>
   </nav>
 
   <div class="dock" id="dock" hidden>
     <div class="dock-inner">
       <div class="dock-info">
-        <div class="dock-avatar">📖</div>
+        <div class="dock-avatar">ق</div>
         <div class="dock-meta">
           <strong id="dock-title">—</strong>
           <span id="dock-sub">—</span>
@@ -124,9 +124,9 @@
       </div>
       <div class="dock-controls">
         <button type="button" id="dock-list" title="القائمة">☰</button>
-        <button type="button" id="dock-prev" aria-label="السابق">⟨⟨</button>
+        <button type="button" id="dock-prev" aria-label="السابق">‹‹</button>
         <button type="button" id="dock-play" class="dock-play" aria-label="تشغيل">▶</button>
-        <button type="button" id="dock-next" aria-label="التالي">⟩⟩</button>
+        <button type="button" id="dock-next" aria-label="التالي">››</button>
         <button type="button" id="dock-repeat" title="تكرار">↺</button>
         <button type="button" id="dock-speed" title="السرعة">١×</button>
       </div>
