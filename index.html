@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>تلاوات</title>
   <meta name="description" content="تلاوات القرآن الكريم بأصوات القراء" />
-  <meta name="theme-color" content="#0c1220" />
+  <meta name="theme-color" content="#0a1210" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="pattern" aria-hidden="true"></div>
+
   <header class="top">
     <div class="top-inner">
       <a class="brand" href="index.html">تلاوات</a>
@@ -24,19 +26,20 @@
 
   <main class="wrap">
     <section class="intro">
+      <p class="eyebrow">مكتبة صوتية</p>
       <h1>القرآن الكريم</h1>
-      <p>استمع لتلاوات القراء مباشرة، بدون تسجيل.</p>
+      <p class="lede">استمع لتلاوات القراء مباشرة، دون تسجيل.</p>
     </section>
 
     <section class="section" id="sheikhs">
       <div class="section-head">
         <h2>قراء مميزون</h2>
-        <a class="more" href="#all">الكل</a>
+        <a class="more" href="#all">عرض الكل</a>
       </div>
       <div class="reciters-row" id="famous-row"></div>
     </section>
 
-    <section class="section" id="all">
+    <section class="section section-all" id="all">
       <div class="section-head">
         <h2>كل القراء</h2>
         <span class="count" id="result-count"></span>
@@ -52,10 +55,10 @@
     <p>تلاوات · الصوت من مصادر عامة</p>
   </footer>
 
-  <nav class="bottom-nav">
-    <a href="index.html" class="on"><span>الرئيسية</span></a>
-    <a href="#sheikhs"><span>المشايخ</span></a>
-    <a href="#all"><span>القراء</span></a>
+  <nav class="bottom-nav" aria-label="التنقل">
+    <a href="index.html" class="on">الرئيسية</a>
+    <a href="#sheikhs">المشايخ</a>
+    <a href="#all">القراء</a>
   </nav>
 
   <div class="dock" id="dock" hidden>

@@ -4,19 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>القارئ | تلاوات</title>
-  <meta name="theme-color" content="#0a0b0f" />
+  <meta name="theme-color" content="#0a1210" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="page-reciter">
+  <div class="pattern" aria-hidden="true"></div>
+
   <header class="profile-top">
     <a class="pt-btn" href="index.html" aria-label="رجوع">‹</a>
-    <div class="pt-actions">
-      <button type="button" class="pt-btn" id="btn-share" aria-label="مشاركة">↗</button>
-    </div>
+    <button type="button" class="pt-btn" id="btn-share" aria-label="مشاركة">↗</button>
   </header>
 
   <section class="profile-hero">
@@ -26,22 +26,20 @@
     <div class="profile-actions">
       <button type="button" class="pa-btn" id="btn-fav" aria-label="مفضلة">☆</button>
       <button type="button" class="pa-play" id="play-all" aria-label="تشغيل الكل">▶</button>
-      <button type="button" class="pa-btn" id="btn-bookmark" aria-label="حفظ">⋯</button>
+      <button type="button" class="pa-btn" id="btn-bookmark" aria-label="المزيد">⋯</button>
     </div>
     <p class="profile-bio" id="reciter-bio"></p>
-    <div class="profile-stats">
-      <span id="reciter-meta">— سورة</span>
-    </div>
+    <p class="profile-stats" id="reciter-meta">— سورة</p>
   </section>
 
   <main class="profile-list">
     <div id="surah-list" class="surah-rows"></div>
   </main>
 
-  <nav class="bottom-nav">
-    <a href="index.html"><span>الرئيسية</span></a>
-    <a href="index.html#sheikhs" class="on"><span>المشايخ</span></a>
-    <a href="index.html#all"><span>القراء</span></a>
+  <nav class="bottom-nav" aria-label="التنقل">
+    <a href="index.html">الرئيسية</a>
+    <a href="index.html#sheikhs" class="on">المشايخ</a>
+    <a href="index.html#all">القراء</a>
   </nav>
 
   <div class="dock" id="dock" hidden>
