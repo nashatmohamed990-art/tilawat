@@ -25,7 +25,13 @@ const PHOTO_MAP = [
   { keys: ["العفاسي", "مشاري راشد"], url: "https://upload.wikimedia.org/wikipedia/commons/2/24/%D0%9C%D0%B8%D1%88%D0%B0%D1%80%D0%B8_%D0%A0%D0%B0%D1%88%D0%B8%D0%B4.jpg" },
   { keys: ["المنشاوي", "محمد صديق"], url: "https://upload.wikimedia.org/wikipedia/commons/e/ee/Elminshwey.jpg" },
   { keys: ["ياسر الدوسري", "ياسر بن راشد"], url: "https://upload.wikimedia.org/wikipedia/commons/6/69/Yasser_Al-Dosari.jpg" },
-  { keys: ["الشريم", "سعود الشريم"], url: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Saud_Shuraim_doing_the_Khutbah.png" }
+  { keys: ["الشريم", "سعود الشريم"], url: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Saud_Shuraim_doing_the_Khutbah.png" },
+  { keys: ["عبد الباسط", "عبدالباسط"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Abdul_Basit_%28cropped%29.jpg/440px-Abdul_Basit_%28cropped%29.jpg" },
+  { keys: ["الحصري", "محمود خليل"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Mahmoud_Khalil_Al-Hussary.jpg/440px-Mahmoud_Khalil_Al-Hussary.jpg" },
+  { keys: ["سعد الغامدي", "الغامدي"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Saad_al-Ghamdi.jpg/440px-Saad_al-Ghamdi.jpg" },
+  { keys: ["أحمد العجمي", "العجمي"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Ahmad_Al-Ajmi.jpg/440px-Ahmad_Al-Ajmi.jpg" },
+  { keys: ["ناصر القطامي", "القطامي"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Nasser_Al-Qatami.jpg/440px-Nasser_Al-Qatami.jpg" },
+  { keys: ["بندر بليلة", "بليلة"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bandar_Baleelah.jpg/440px-Bandar_Baleelah.jpg" }
 ];
 
 function photoFor(name) {
@@ -40,9 +46,9 @@ function avatarHtml(name) {
   const url = photoFor(name);
   const letter = initial(name);
   if (url) {
-    return `<img src="${url}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentNode.textContent='${letter}'" />`;
+    return `<img src="${url}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=122445&color=e0c15a&size=128&bold=true&font-size=0.5'" />`;
   }
-  return letter;
+  return `<img src="https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=122445&color=e0c15a&size=128&bold=true&font-size=0.5" alt="${letter}" loading="lazy" />`;
 }
 
 let RECITERS = [];
@@ -352,10 +358,7 @@ function renderReciter() {
       ph.className = "reciter-photo";
       hero.insertBefore(ph, hero.firstChild);
     }
-    const url = photoFor(reciter.name);
-    ph.innerHTML = url
-      ? `<img src="${url}" alt="${reciter.name}" loading="lazy" referrerpolicy="no-referrer" />`
-      : `<span>${initial(reciter.name)}</span>`;
+    ph.innerHTML = avatarHtml(reciter.name);
   }
   const list = document.getElementById("surah-list");
   list.innerHTML = reciter.surahs.map((n) => `
