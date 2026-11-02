@@ -183,7 +183,8 @@ img { max-width: 100%; display: block; }
 
 .reciter-avatar img,
 .card-avatar img,
-.reciter-photo img {
+.reciter-photo img,
+.profile-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -535,4 +536,221 @@ body.has-dock .bottom-nav { display: none; }
   .hero { padding: 60px 16px 68px; text-align: start; }
   .hero-inner { margin: 0; max-width: 520px; }
   .search-bar { margin: 0; }
+}
+
+/* ===== Reciter profile page (app-style) ===== */
+body.page-reciter {
+  background: #0a0a0c;
+  color: #f2f2f4;
+  padding-bottom: 88px;
+}
+body.page-reciter .bottom-nav {
+  background: #121216;
+  border-top-color: rgba(255,255,255,.08);
+}
+body.page-reciter .bottom-nav a.on { color: #e8c547; }
+
+.profile-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: linear-gradient(180deg, #0a0a0c 70%, transparent);
+}
+.pt-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  font-size: 1.2rem;
+  display: grid; place-items: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+.pt-actions { display: flex; gap: 8px; }
+
+.profile-hero {
+  text-align: center;
+  padding: 8px 20px 20px;
+}
+.profile-photo {
+  width: 148px; height: 148px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  overflow: hidden;
+  background: #1a1a22;
+  border: 3px solid rgba(255,255,255,.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,.45);
+  display: grid; place-items: center;
+  font-size: 2.4rem; font-weight: 800; color: #e8c547;
+}
+.profile-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.profile-hero h1 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 6px;
+  letter-spacing: -.01em;
+}
+.profile-country {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .88rem;
+  color: #a0a0a8;
+  margin-bottom: 18px;
+}
+.profile-country .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34,197,94,.25);
+}
+
+.profile-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.pa-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.18);
+  background: transparent;
+  color: #e8e8ec;
+  font-size: 1.15rem;
+  display: grid; place-items: center;
+  cursor: pointer;
+}
+.pa-btn.on {
+  border-color: #e8c547;
+  color: #e8c547;
+  background: rgba(232,197,71,.12);
+}
+.pa-play {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  border: 0;
+  background: #fff;
+  color: #0a0a0c;
+  font-size: 1.25rem;
+  font-weight: 800;
+  display: grid; place-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255,255,255,.2);
+}
+.pa-play.playing {
+  background: #e8c547;
+}
+
+.profile-bio {
+  font-size: .84rem;
+  color: #9a9aa4;
+  line-height: 1.55;
+  max-width: 320px;
+  margin: 0 auto 16px;
+}
+.profile-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: .9rem;
+  font-weight: 600;
+  color: #e8e8ec;
+  margin-bottom: 8px;
+}
+.profile-stats .cloud {
+  color: #5b9cf5;
+  font-size: 1.1rem;
+}
+
+.profile-list {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 4px 12px 24px;
+}
+.surah-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.surah-row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+  border: 0;
+  width: 100%;
+  text-align: start;
+  color: inherit;
+}
+.surah-row:hover,
+.surah-row.on {
+  background: rgba(255,255,255,.06);
+}
+.surah-row .sr-num {
+  font-size: .95rem;
+  font-weight: 600;
+  color: #8a8a94;
+  text-align: center;
+}
+.surah-row.on .sr-num { color: #e8c547; }
+.surah-row .sr-body {
+  min-width: 0;
+}
+.surah-row .sr-body strong {
+  display: block;
+  font-size: .95rem;
+  font-weight: 700;
+  color: #f2f2f4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.surah-row .sr-body em {
+  display: block;
+  font-style: normal;
+  font-size: .78rem;
+  color: #8a8a94;
+  margin-top: 1px;
+}
+.surah-row .sr-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.surah-row .sr-dl,
+.surah-row .sr-more {
+  width: 32px; height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #8a8a94;
+  font-size: 1rem;
+  display: grid; place-items: center;
+  cursor: pointer;
+}
+.surah-row .sr-dl:hover { color: #5b9cf5; }
+
+body.page-reciter .top { display: none; }
+body.page-reciter .foot { display: none; }
+
+@media (min-width: 760px) {
+  .profile-hero { padding-top: 24px; }
+  .profile-photo { width: 168px; height: 168px; }
+  body.page-reciter .bottom-nav { display: none; }
 }
