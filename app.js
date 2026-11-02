@@ -90,6 +90,26 @@ function pad(n) { return String(n).padStart(3, "0"); }
 function byId(id) { return RECITERS.find((r) => String(r.id) === String(id)); }
 function surahUrl(reciter, n) { return reciter.server + pad(n) + ".mp3"; }
 function surahTitle(n) { return "سورة " + (SURAH_NAMES[n] || n); }
+
+function downloadSurah(url, filename) {
+  if (!url) return;
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename || "tilawa.mp3";
+  a.target = "_blank";
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+function downloadCurrent() {
+  const item = queue[index];
+  if (!item) return;
+  const name = (item.reciterName || "قارئ") + " - " + (item.title || "سورة") + ".mp3";
+  downloadSurah(item.url, name);
+}
+
 function fmtTime(s) {
   if (!isFinite(s) || s < 0) return "٠:٠٠";
   const m = Math.floor(s / 60);
@@ -210,6 +230,7 @@ function bindDock() {
     if (!a.duration) return;
     a.currentTime = a.duration * (Number(e.target.value) / 1000);
   });
+  document.getElementById("dock-dl")?.addEventListener("click", () => downloadCurrent());
 }
 
 function normalize(data) {
@@ -352,17 +373,23 @@ function renderReciter() {
 
   const list = document.getElementById("surah-list");
   if (list) {
-    list.innerHTML = reciter.surahs.map((n) => `
-      <button class="surah-row" type="button" data-n="${n}">
+    list.innerHTML = reciter.surahs.map((n) => {
+      const url = surahUrl(reciter, n);
+      const fname = reciter.name + " - " + (SURAH_NAMES[n] || n) + ".mp3";
+      return `
+      <div class="surah-row" data-n="${n}" role="button" tabindex="0">
         <span class="sr-num">${ar.format(n)}</span>
         <span class="sr-body">
           <strong>${SURAH_NAMES[n] || n}</strong>
           <em>${SURAH_EN[n] || ""}</em>
         </span>
-        <span class="sr-actions"></span>
-      </button>
-    `).join("");
+        <span class="sr-actions">
+          <a class="sr-dl" href="${url}" download="${fname}" target="_blank" rel="noopener" title="تنزيل" aria-label="تنزيل">↓</a>
+        </span>
+      </div>`;
+    }).join("");
     list.onclick = (e) => {
+      if (e.target.closest(".sr-dl")) return;
       const row = e.target.closest(".surah-row");
       if (!row) return;
       playReciter(reciter, Number(row.dataset.n));
