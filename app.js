@@ -38,7 +38,7 @@ function guessCountry(name) {
   return "—";
 }
 
-function bioFor(name) {
+function bioFor() {
   return "تلاوات مرتّلة برواية معتمدة · جاهزة للاستماع المباشر.";
 }
 
@@ -73,10 +73,11 @@ function photoFor(name) {
 function avatarHtml(name) {
   const url = photoFor(name);
   const letter = initial(name);
+  const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=141f1b&color=c4a574&size=128&bold=true&font-size=0.5`;
   if (url) {
-    return `<img src="${url}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=122445&color=e0c15a&size=128&bold=true&font-size=0.5'" />`;
+    return `<img src="${url}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${fallback}'" />`;
   }
-  return `<img src="https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=122445&color=e0c15a&size=128&bold=true&font-size=0.5" alt="${letter}" loading="lazy" />`;
+  return `<img src="${fallback}" alt="${letter}" loading="lazy" />`;
 }
 
 let RECITERS = [];
@@ -98,14 +99,6 @@ function fmtTime(s) {
 }
 function initial(name) {
   return (name || "ق").trim().charAt(0);
-}
-
-function getFavs() {
-  try { return JSON.parse(localStorage.getItem("tilawat-favs") || "[]"); }
-  catch (_) { return []; }
-}
-function saveFavs(list) {
-  try { localStorage.setItem("tilawat-favs", JSON.stringify(list)); } catch (_) {}
 }
 
 function ensureAudio() {
@@ -321,7 +314,7 @@ function renderReciter() {
   if (countryEl) countryEl.innerHTML = `<span class="dot"></span> ${guessCountry(reciter.name)}`;
 
   const bioEl = document.getElementById("reciter-bio");
-  if (bioEl) bioEl.textContent = bioFor(reciter.name);
+  if (bioEl) bioEl.textContent = bioFor();
 
   const metaEl = document.getElementById("reciter-meta");
   if (metaEl) metaEl.textContent = ar.format(reciter.count) + " سورة";
@@ -333,7 +326,7 @@ function renderReciter() {
     const url = location.href;
     try {
       if (navigator.share) await navigator.share({ title: reciter.name, url });
-      else { await navigator.clipboard.writeText(url); }
+      else await navigator.clipboard.writeText(url);
     } catch (_) {}
   });
 
@@ -366,7 +359,7 @@ function renderReciter() {
           <strong>${SURAH_NAMES[n] || n}</strong>
           <em>${SURAH_EN[n] || ""}</em>
         </span>
-        <span class="sr-actions"><span class="sr-dl">☁</span></span>
+        <span class="sr-actions"></span>
       </button>
     `).join("");
     list.onclick = (e) => {
