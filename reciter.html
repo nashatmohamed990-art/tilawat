@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>القارئ | تلاوات القرآن الكريم</title>
-  <meta name="theme-color" content="#0a0a0c" />
+  <title>القارئ | تلاوات</title>
+  <meta name="theme-color" content="#0a0b0f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="page-reciter">
   <header class="profile-top">
     <a class="pt-btn" href="index.html" aria-label="رجوع">‹</a>
     <div class="pt-actions">
-      <button type="button" class="pt-btn" id="btn-bookmark" aria-label="حفظ">🔖</button>
-      <button type="button" class="pt-btn" id="btn-info" aria-label="معلومات">ⓘ</button>
+      <button type="button" class="pt-btn" id="btn-share" aria-label="مشاركة">↗</button>
     </div>
   </header>
 
@@ -25,14 +24,13 @@
     <h1 id="reciter-name">القارئ</h1>
     <p class="profile-country" id="reciter-country"><span class="dot"></span> —</p>
     <div class="profile-actions">
-      <button type="button" class="pa-btn" id="btn-share" aria-label="مشاركة">↗</button>
-      <button type="button" class="pa-play" id="play-all" aria-label="تشغيل الكل">▶</button>
       <button type="button" class="pa-btn" id="btn-fav" aria-label="مفضلة">☆</button>
+      <button type="button" class="pa-play" id="play-all" aria-label="تشغيل الكل">▶</button>
+      <button type="button" class="pa-btn" id="btn-bookmark" aria-label="حفظ">⋯</button>
     </div>
-    <p class="profile-bio" id="reciter-bio">قارئ للقرآن الكريم برواية متواترة، تُبث تلاواته من مصادر موثوقة للاستماع المباشر.</p>
+    <p class="profile-bio" id="reciter-bio"></p>
     <div class="profile-stats">
-      <span id="reciter-meta">— سورة مسجّلة</span>
-      <span class="cloud" aria-hidden="true">☁</span>
+      <span id="reciter-meta">— سورة</span>
     </div>
   </section>
 
@@ -41,16 +39,14 @@
   </main>
 
   <nav class="bottom-nav">
-    <a href="index.html"><span class="ico">⌂</span>الرئيسية</a>
-    <a href="index.html#sheikhs" class="on"><span class="ico">ق</span>المشايخ</a>
-    <a href="index.html#all"><span class="ico">☰</span>القراء</a>
-    <a href="index.html#fav"><span class="ico">☆</span>المفضلة</a>
+    <a href="index.html"><span>الرئيسية</span></a>
+    <a href="index.html#sheikhs" class="on"><span>المشايخ</span></a>
+    <a href="index.html#all"><span>القراء</span></a>
   </nav>
 
   <div class="dock" id="dock" hidden>
     <div class="dock-inner">
       <div class="dock-info">
-        <div class="dock-avatar" id="dock-avatar">ق</div>
         <div class="dock-meta">
           <strong id="dock-title">—</strong>
           <span id="dock-sub">—</span>
@@ -63,12 +59,9 @@
         <span id="dock-dur">٠:٠٠</span>
       </div>
       <div class="dock-controls">
-        <button type="button" id="dock-list" title="القائمة">☰</button>
-        <button type="button" id="dock-prev" aria-label="السابق">‹‹</button>
+        <button type="button" id="dock-prev" aria-label="السابق">‹</button>
         <button type="button" id="dock-play" class="dock-play" aria-label="تشغيل">▶</button>
-        <button type="button" id="dock-next" aria-label="التالي">››</button>
-        <button type="button" id="dock-repeat" title="تكرار">↺</button>
-        <button type="button" id="dock-speed" title="السرعة">١×</button>
+        <button type="button" id="dock-next" aria-label="التالي">›</button>
       </div>
     </div>
   </div>
