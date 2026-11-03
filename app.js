@@ -47,33 +47,13 @@ const FAMOUS = [
   "الغامدي","الشريم","الحصري","الطبلاوي","مشاري","ياسر","خليل"
 ];
 
-const PHOTO_MAP = [
-  { keys: ["السديس"], url: "https://upload.wikimedia.org/wikipedia/commons/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg" },
-  { keys: ["المعيقلي", "المعيقل"], url: "https://upload.wikimedia.org/wikipedia/commons/9/90/Maher_Al_Mueaqly.png" },
-  { keys: ["العفاسي", "مشاري راشد", "مشاري"], url: "https://upload.wikimedia.org/wikipedia/commons/2/24/%D0%9C%D0%B8%D1%88%D0%B0%D1%80%D0%B8_%D0%A0%D0%B0%D1%88%D0%B8%D0%B4.jpg" },
-  { keys: ["المنشاوي", "محمد صديق"], url: "https://upload.wikimedia.org/wikipedia/commons/e/ee/Elminshwey.jpg" },
-  { keys: ["ياسر الدوسري", "ياسر بن راشد", "الدوسري"], url: "https://upload.wikimedia.org/wikipedia/commons/6/69/Yasser_Al-Dosari.jpg" },
-  { keys: ["الشريم", "سعود الشريم"], url: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Saud_Shuraim_doing_the_Khutbah.png" },
-  { keys: ["عبد الباسط", "عبدالباسط"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Abdul_Basit_%28cropped%29.jpg/440px-Abdul_Basit_%28cropped%29.jpg" },
-  { keys: ["الحصري", "محمود خليل"], url: "https://upload.wikimedia.org/wikipedia/commons/7/70/Hussary.jpg" },
-  { keys: ["سعد الغامدي", "الغامدي"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Saad_al-Ghamdi.jpg/440px-Saad_al-Ghamdi.jpg" },
-  { keys: ["أحمد العجمي", "العجمي"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Ahmad_Al-Ajmi.jpg/440px-Ahmad_Al-Ajmi.jpg" },
-  { keys: ["ناصر القطامي", "القطامي"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Nasser_Al-Qatami.jpg/440px-Nasser_Al-Qatami.jpg" },
-  { keys: ["بندر بليلة", "بليلة"], url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bandar_Baleelah.jpg/440px-Bandar_Baleelah.jpg" },
-  { keys: ["الطبلاوي"], url: "https://upload.wikimedia.org/wikipedia/commons/e/ee/Elminshwey.jpg" },
-  { keys: ["مصطفى إسماعيل"], url: "https://upload.wikimedia.org/wikipedia/commons/7/70/Hussary.jpg" }
-];
+const PHOTO_MAP = [];
 
 function photoFor(name) {
-  const n = name || "";
-  for (const p of PHOTO_MAP) {
-    if (p.keys.some((k) => n.includes(k))) return p.url;
-  }
   return "";
 }
 
 function avatarHtml(name) {
-  const url = photoFor(name);
   const letter = initial(name);
   const palettes = [
     ["1b5a4f", "e6ba76"],
@@ -87,9 +67,6 @@ function avatarHtml(name) {
   for (let i = 0; i < (name || "").length; i++) h = (h + name.charCodeAt(i) * (i + 1)) % 997;
   const [bg, fg] = palettes[h % palettes.length];
   const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=${bg}&color=${fg}&size=128&bold=true&font-size=0.5`;
-  if (url) {
-    return `<img src="${url}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${fallback}'" />`;
-  }
   return `<img src="${fallback}" alt="${letter}" loading="lazy" />`;
 }
 
