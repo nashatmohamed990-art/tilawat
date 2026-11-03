@@ -231,6 +231,13 @@ function bindDock() {
     if (!a.duration) return;
     a.currentTime = a.duration * (Number(e.target.value) / 1000);
   });
+  document.getElementById("dock-speed")?.addEventListener("click", (e) => {
+    const rates = [1, 1.25, 1.5, 0.75];
+    const cur = a.playbackRate || 1;
+    const next = rates[(rates.indexOf(cur) + 1) % rates.length];
+    a.playbackRate = next;
+    e.currentTarget.textContent = next === 1 ? "١×" : String(next).replace(".", "٫") + "×";
+  });
   document.getElementById("dock-dl")?.addEventListener("click", () => downloadCurrent());
 }
 
@@ -260,6 +267,28 @@ function normalize(data) {
 
 function isFamous(name) {
   return FAMOUS.some((f) => name.includes(f));
+}
+
+function renderFavReciters() {
+  const sec = document.getElementById("favs");
+  const row = document.getElementById("fav-row");
+  if (!sec || !row) return;
+  let ids = [];
+  try { ids = JSON.parse(localStorage.getItem("tilawat-fav-reciters") || "[]"); } catch (_) {}
+  const list = ids.map((id) => byId(id)).filter(Boolean);
+  if (!list.length) {
+    sec.hidden = true;
+    row.innerHTML = "";
+    return;
+  }
+  sec.hidden = false;
+  row.innerHTML = list.map((r) => `
+    <a class="reciter-card" href="reciter.html?id=${r.id}">
+      <div class="reciter-avatar">${avatarHtml(r.name)}</div>
+      <strong>${r.name}</strong>
+      <span>${ar.format(r.count)} سورة</span>
+    </a>
+  `).join("");
 }
 
 function renderFamous() {
@@ -397,6 +426,20 @@ function renderReciter() {
     };
   }
 
+  const sq = document.getElementById("surah-q");
+  if (sq && list) {
+    sq.oninput = () => {
+      const q = sq.value.trim();
+      list.querySelectorAll(".surah-row").forEach((row) => {
+        const n = Number(row.dataset.n);
+        const name = SURAH_NAMES[n] || "";
+        const en = SURAH_EN[n] || "";
+        const match = !q || name.includes(q) || en.toLowerCase().includes(q.toLowerCase()) || String(n).includes(q);
+        row.hidden = !match;
+      });
+    };
+  }
+
   const playAll = document.getElementById("play-all");
   if (playAll) {
     playAll.onclick = () => {
@@ -442,6 +485,7 @@ async function boot() {
     return;
   }
   if (document.getElementById("grid")) {
+    renderFavReciters();
     renderFamous();
     renderLetters();
     renderHome();
