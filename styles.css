@@ -236,11 +236,12 @@ button { cursor: pointer; }
   z-index: 60;
   width: min(420px, calc(100% - 24px));
   margin-inline: auto;
-  background: #111;
-  color: #fff;
-  border-radius: 28px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 24px;
   padding: 14px 16px 12px;
-  box-shadow: 0 16px 40px #00000055;
+  border: 1px solid #fff;
+  box-shadow: var(--shadow-md);
 }
 .dock[hidden] { display: none !important; }
 body.has-dock { padding-bottom: calc(var(--tab-h) + 130px); }
@@ -249,47 +250,63 @@ body.has-dock { padding-bottom: calc(var(--tab-h) + 130px); }
 .dock-info { display: flex; align-items: center; gap: 10px; }
 .dock-meta { flex: 1; min-width: 0; }
 .dock-meta strong {
-  display: block; font-size: 0.82rem; font-weight: 700;
+  display: block; font-size: 0.86rem; font-weight: 800;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: var(--ink);
 }
 .dock-meta span {
-  display: block; font-size: 0.7rem; color: #aaa;
+  display: block; font-size: 0.72rem; color: var(--ink-soft);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .dock-x {
-  width: 28px; height: 28px; border-radius: 50%;
-  color: #fff; font-size: 1rem;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 1rem;
   display: grid; place-items: center;
 }
 #dock-seek {
-  width: 100%; height: 2px;
-  appearance: none; background: #333;
+  width: 100%; height: 3px;
+  appearance: none;
+  background: var(--surface);
   border-radius: 2px; outline: none; cursor: pointer;
 }
 #dock-seek::-webkit-slider-thumb {
-  appearance: none; width: 12px; height: 12px;
-  border-radius: 50%; background: #fff;
+  appearance: none; width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent);
 }
 .dock-times {
   display: flex; justify-content: space-between;
-  font-size: 0.62rem; color: #888;
+  font-size: 0.64rem; color: var(--muted);
 }
 .dock-controls {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: center;
+  gap: 18px;
   margin-top: 4px;
 }
 .dock-controls button {
   width: 42px; height: 42px;
-  color: #fff; font-size: 1.1rem;
+  color: var(--brand);
+  font-size: 1.15rem;
   display: grid; place-items: center;
 }
 .dock-controls .dock-play {
-  width: 52px; height: 52px;
-  border: 2px solid #fff;
+  width: 54px; height: 54px;
+  background: var(--brand);
+  color: #fff;
+  border: 0;
   border-radius: 50%;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--brand) 35%, transparent);
 }
-#dock-dl { font-size: 1rem; }
+#dock-dl {
+  color: var(--accent-strong);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
 
 .loading, .empty {
   text-align: center; padding: 28px 12px;
