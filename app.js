@@ -73,7 +73,7 @@ function photoFor(name) {
 function avatarHtml(name) {
   const url = photoFor(name);
   const letter = initial(name);
-  const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=141f1b&color=c4a574&size=128&bold=true&font-size=0.5`;
+  const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(letter)}&background=1b5a4f&color=e6ba76&size=128&bold=true&font-size=0.5`;
   if (url) {
     return `<img src="${url}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${fallback}'" />`;
   }
@@ -230,13 +230,6 @@ function bindDock() {
   document.getElementById("dock-seek")?.addEventListener("input", (e) => {
     if (!a.duration) return;
     a.currentTime = a.duration * (Number(e.target.value) / 1000);
-  });
-  document.getElementById("dock-speed")?.addEventListener("click", (e) => {
-    const rates = [1, 1.25, 1.5, 0.75];
-    const cur = a.playbackRate || 1;
-    const next = rates[(rates.indexOf(cur) + 1) % rates.length];
-    a.playbackRate = next;
-    e.currentTarget.textContent = next === 1 ? "١×" : String(next).replace(".", "٫") + "×";
   });
   document.getElementById("dock-dl")?.addEventListener("click", () => downloadCurrent());
 }
