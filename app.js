@@ -194,7 +194,8 @@ function playAt(i) {
   });
   try {
     localStorage.setItem("tilawat-last", JSON.stringify({
-      reciterId: item.reciterId, n: item.n, title: item.title, url: item.url
+      reciterId: item.reciterId, n: item.n, title: item.title, url: item.url,
+      reciterName: item.reciterName || ""
     }));
   } catch (_) {}
 }
@@ -405,6 +406,29 @@ function renderReciter() {
   }
 }
 
+function resumeLast() {
+  try {
+    const raw = localStorage.getItem("tilawat-last");
+    if (!raw) return;
+    const last = JSON.parse(raw);
+    if (!last || !last.url) return;
+    queue = [{
+      n: last.n,
+      url: last.url,
+      title: last.title || "سورة",
+      reciterName: last.reciterName || "",
+      reciterId: last.reciterId
+    }];
+    index = 0;
+    const a = ensureAudio();
+    a.src = last.url;
+    showDock(last.title || "سورة", last.reciterName || "");
+    a.pause();
+    const btn = document.getElementById("dock-play");
+    if (btn) btn.textContent = "▶";
+  } catch (_) {}
+}
+
 async function boot() {
   bindDock();
   try {
@@ -429,6 +453,7 @@ async function boot() {
     });
   }
   if (document.getElementById("surah-list")) renderReciter();
+  resumeLast();
 }
 
 boot();
