@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>القارئ | تلاوات</title>
-  <meta name="theme-color" content="#0a1210" />
+  <meta name="theme-color" content="#080f0d" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,6 +33,9 @@
   </section>
 
   <main class="profile-list">
+    <div class="surah-tools">
+      <input id="surah-q" type="search" placeholder="ابحث عن سورة…" autocomplete="off" />
+    </div>
     <div id="surah-list" class="surah-rows"></div>
   </main>
 
@@ -57,6 +60,7 @@
         <span id="dock-dur">٠:٠٠</span>
       </div>
       <div class="dock-controls">
+        <button type="button" id="dock-speed" aria-label="السرعة" title="السرعة">١×</button>
         <button type="button" id="dock-dl" aria-label="تنزيل" title="تنزيل">↓</button>
         <button type="button" id="dock-prev" aria-label="السابق">‹</button>
         <button type="button" id="dock-play" class="dock-play" aria-label="تشغيل">▶</button>
