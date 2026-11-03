@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>القارئ | تلاوات</title>
-  <meta name="theme-color" content="#050505" />
+  <meta name="theme-color" content="#f5f1e9" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="page-reciter">
+  <div class="pattern" aria-hidden="true"></div>
+
   <header class="profile-top">
     <a class="pt-btn" href="index.html" aria-label="رجوع">‹</a>
     <button type="button" class="pt-btn" id="btn-share" aria-label="مشاركة">↗</button>
@@ -20,7 +22,7 @@
   <section class="profile-hero">
     <div class="profile-photo" id="reciter-photo"></div>
     <h1 id="reciter-name">القارئ</h1>
-    <p class="profile-country" id="reciter-country">—</p>
+    <p class="profile-country" id="reciter-country"><span class="dot"></span> —</p>
     <div class="profile-actions">
       <button type="button" class="pa-btn" id="btn-fav" aria-label="مفضلة">☆</button>
       <button type="button" class="pa-play" id="play-all" aria-label="تشغيل الكل">▶</button>
